@@ -19,10 +19,6 @@ const pageText = (page) => {
   };
 };
 
-/**
- This component render the layout for Signup or Login
- */
-
 const SignupLoginRender = ({
   FormComponent,
   submitHandler,
@@ -62,11 +58,6 @@ const SignupLoginRender = ({
           <Typography variant="h4" component="h1" className={classes.imgHeader}>
             Converse with anyone with any language.
           </Typography>
-          <Hidden mdUp>
-            <a href={"#formPanel"} className={"link-noStyle"}>
-              <Button variant="contained">{text.xsScreenButtonText}</Button>
-            </a>
-          </Hidden>
         </Box>
       </Grid>
       <Grid

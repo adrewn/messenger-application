@@ -7,8 +7,6 @@ import {
   Typography,
 } from "@material-ui/core";
 
-/* SignupForm Component */
-
 const SignupForm = ({ submitHandler, classes, formErrorMessage }) => (
   <Box className={classes.formWrapper}>
     <Typography variant="h4" component="h2">

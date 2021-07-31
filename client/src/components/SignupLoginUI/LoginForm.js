@@ -6,8 +6,6 @@ import {
   Typography,
 } from "@material-ui/core";
 
-/** LoginForm component */
-
 const LoginForm = ({ submitHandler, classes }) => (
   <Box className={classes.formWrapper}>
     <Typography variant="h4" component="h2">
