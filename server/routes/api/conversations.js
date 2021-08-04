@@ -93,7 +93,7 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.put("/read", async (req, res, next) => {
+router.patch("/readingstatus", async (req, res, next) => {
   const { user } = req;
   const { convoId, senderId } = req.body;
 

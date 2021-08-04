@@ -122,7 +122,7 @@ export const searchUsers = (searchTerm) => async (dispatch) => {
 
 export const markMessagesAsRead = (convoId, senderId) => async (dispatch) => {
   try {
-    const { data } = await axios.put("/api/conversations/read", {
+    const { data } = await axios.patch("/api/conversations/readingstatus", {
       convoId: convoId,
       senderId: senderId,
     });
