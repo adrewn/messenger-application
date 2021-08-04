@@ -81,19 +81,14 @@ router.get("/", async (req, res, next) => {
         convoJSON.messages[convoJSON.messages.length - 1].text;
       conversations[i] = convoJSON;
     }
-    conversations.sort((conv1, conv2) => {
-      return (
-        conv2.messages[conv2.messages.length - 1].createdAt -
-        conv1.messages[conv1.messages.length - 1].createdAt
-      );
-    });
+    conversations.reverse();
     res.json(conversations);
   } catch (error) {
     next(error);
   }
 });
 
-router.patch("/readingstatus", async (req, res, next) => {
+router.patch("/read-status", async (req, res, next) => {
   const { user } = req;
   const { convoId, senderId } = req.body;
 
