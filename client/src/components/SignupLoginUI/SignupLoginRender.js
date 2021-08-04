@@ -1,5 +1,5 @@
 import { useHistory } from "react-router-dom";
-import { Grid, Box, Typography, Button, Hidden } from "@material-ui/core";
+import { Grid, Box, Typography, Button } from "@material-ui/core";
 import { useStyles } from "./StyleSignupLogin";
 import Bubble from "../../assets/bubble.svg";
 
@@ -65,9 +65,8 @@ const SignupLoginRender = ({
         item
         className={classes.formPanel}
         id="formPanel"
-        justify="flex-start"
+        justify="center"
         alignItems="center"
-        direction="column"
         xs={12}
         md={7}
       >
