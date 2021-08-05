@@ -23,6 +23,21 @@ Conversation.findConversation = async function (user1Id, user2Id) {
   return conversation;
 };
 
+Conversation.listConversations = async function (userId) {
+  const conversations = await Conversation.findAll({
+    where: {
+      [Op.or]: {
+        user1Id: userId,
+        user2Id: userId,
+      },
+    },
+    attributes: ["id"],
+  });
+
+  // return conversation or null if it doesn't exist
+  return conversations;
+};
+
 Conversation.getDetailsById = async function (convoId, currentUserId) {
   const conversation = await Conversation.findOne({
     where: {
