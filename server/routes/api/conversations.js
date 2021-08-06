@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const { User, Conversation, Message } = require("../../db/models");
 const { Op } = require("sequelize");
-const onlineUsers = require("../../onlineUsers");
+const { checkOnlineUser } = require("../../onlineUsers");
 
 // get all conversations for a user, include latest message text for preview, and all messages
 // include other user model so we have info on username/profile pic (don't include current user info)
@@ -62,7 +62,7 @@ router.get("/", async (req, res, next) => {
       }
 
       // set property for online status of the other user
-      if (onlineUsers.includes(convoJSON.otherUser.id)) {
+      if (checkOnlineUser(convoJSON.otherUser.id)) {
         convoJSON.otherUser.online = true;
       } else {
         convoJSON.otherUser.online = false;
@@ -81,7 +81,12 @@ router.get("/", async (req, res, next) => {
         convoJSON.messages[convoJSON.messages.length - 1].text;
       conversations[i] = convoJSON;
     }
-    conversations.reverse();
+    conversations.sort((conv1, conv2) => {
+      return (
+        conv2.messages[conv2.messages.length - 1].createdAt -
+        conv1.messages[conv1.messages.length - 1].createdAt
+      );
+    });
     res.json(conversations);
   } catch (error) {
     next(error);
