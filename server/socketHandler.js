@@ -17,6 +17,19 @@ const socketHandler = (server) => {
     },
   });
 
+  io.use((socket, next) => {
+    const token = cookie.parse(socket.handshake.headers.cookie)[
+      "messenger-token"
+    ];
+
+    jwt.verify(token, process.env.SESSION_SECRET, (err, decoded) => {
+      if (err) {
+        next(new Error("not authorized"));
+      }
+      next();
+    });
+  });
+
   io.on("connection", (socket) => {
     socket.on("go-online", async (id) => {
       if (!checkOnlineUser(id)) {
@@ -32,8 +45,9 @@ const socketHandler = (server) => {
 
     socket.on("logout", (id) => {
       if (checkOnlineUser(id)) {
-        removeOnlineUser(id);
-        exitRooms(socket, id);
+        if (removeOnlineUser(id, socket.id)) {
+          exitRooms(socket, id);
+        }
       }
     });
   });
@@ -62,21 +76,19 @@ const exitRooms = (socket, userId) => {
   }
 };
 
-const joinRooms = (socket, userId) => {
-  Conversation.listConversations(userId)
-    .then((conversations) => {
-      const rooms = conversations.map((conversation) => {
-        return conversation.id.toString();
-      });
-      socket.join(rooms);
-
-      for (let room of rooms) {
-        socket.to(room).emit("add-online-user", userId);
-      }
-    })
-    .catch((err) => {
-      console.error(err);
+const joinRooms = async (socket, userId) => {
+  try {
+    const conversations = await Conversation.listConversations(userId);
+    const rooms = await conversations.map((conversation) => {
+      return conversation.id.toString();
     });
+    socket.join(rooms);
+    for (let room of rooms) {
+      socket.to(room).emit("add-online-user", userId);
+    }
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 module.exports = socketHandler;

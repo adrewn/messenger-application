@@ -5,7 +5,15 @@ const checkOnlineUser = (userId) => {
 };
 
 const removeOnlineUser = (userId) => {
-  return delete onlineUsers[userId];
+  const index = onlineUsers[userId].indexOf(socketId);
+  onlineUsers[userId].splice(index, 1);
+  const logout = onlineUsers[userId].length === 0;
+
+  if (logout) {
+    delete onlineUsers[userId];
+  }
+
+  return logout;
 };
 
 const addOnlineUser = (userId, socketId) => {
