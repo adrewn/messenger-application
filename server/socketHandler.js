@@ -18,9 +18,7 @@ const socketHandler = (server) => {
   });
 
   io.use((socket, next) => {
-    const token = cookie.parse(socket.handshake.headers.cookie)[
-      "messenger-token"
-    ];
+    const token = window.localStorage.getItem("messenger-token");
 
     jwt.verify(token, process.env.SESSION_SECRET, (err, decoded) => {
       if (err) {

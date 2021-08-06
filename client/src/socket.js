@@ -6,9 +6,7 @@ import {
   addOnlineUser,
 } from "./store/conversations";
 
-const socket = io(window.location.origin, {
-  withCredentials: true,
-});
+const socket = io(window.location.origin);
 
 socket.on("connect", () => {
   console.log("connected to server");
