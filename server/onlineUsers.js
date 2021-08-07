@@ -4,7 +4,7 @@ const checkOnlineUser = (userId) => {
   return onlineUsers.hasOwnProperty(userId);
 };
 
-const removeOnlineUser = (userId) => {
+const removeOnlineUser = (userId, socketId) => {
   const index = onlineUsers[userId].indexOf(socketId);
   onlineUsers[userId].splice(index, 1);
   const logout = onlineUsers[userId].length === 0;
