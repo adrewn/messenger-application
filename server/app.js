@@ -5,7 +5,7 @@ const logger = require("morgan");
 const session = require("express-session");
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
 const db = require("./db");
-const checkSession = require("./routes/session");
+const authMiddleware = require("./routes/session");
 const cookieParser = require("cookie-parser");
 // create store for sessions to persist in database
 const sessionStore = new SequelizeStore({ db });
@@ -21,7 +21,7 @@ app.use(urlencoded({ extended: false }));
 app.use(express.static(join(__dirname, "public")));
 
 app.use((req, res, next) => {
-  checkSession(req, res, next);
+  authMiddleware(req, res, next);
 });
 
 // require api routes here after I create them

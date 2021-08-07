@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const { User } = require("../../db/models");
 
-const checkSession = (req, res, next) => {
+const authMiddleware = (req, res, next) => {
   const token = req.cookies["messenger-token"];
   if (token) {
     jwt.verify(token, process.env.SESSION_SECRET, (err, decoded) => {
@@ -20,4 +20,4 @@ const checkSession = (req, res, next) => {
   }
 };
 
-module.exports = checkSession;
+module.exports = authMiddleware;
